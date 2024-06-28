@@ -1,17 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mus Musculus Vomeronasal Organ Analysis</title>
+  <style>
+    .centered-title {
+      text-align: center;
+      font-size: 2em; /* Make the title larger */
+    }
+
+    .image-container { /* Center the images and add spacing */
+      display: flex;
+      justify-content: center;
+      gap: 20px; /* Add space between images */
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Mus Musculus Vomeronasal Organ Analysis</h1>
-
-  <div style="display: flex; justify-content: space-around;"> 
+  <div class="image-container">
     <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/cute_mouse.jpeg" width="467" height="316" alt="Cute Mouse">
     <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="333" height="322" alt="Yu Lab Logo">
   </div>
+
+  <h1 class="centered-title">Mus Musculus Vomeronasal Organ Analysis</h1> 
+
+  <div id="3d-image-container"></div> <script>
+    // Fetch and insert the 3D image content
+    fetch('vno.3d.umap.cell_type.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('3d-image-container').innerHTML = html;
+      });
+  </script>
 
   <p><a href="Figure_1.nb.html">Figure 1 Panels and Additional Information</a></p>
   <p><a href="Figure_2.nb.html">Figure 2 Panels and Additional Information</a></p>
