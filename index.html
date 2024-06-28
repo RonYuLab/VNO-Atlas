@@ -9,9 +9,25 @@
       background-color: white;
     }
 
-    .centered-title {
+    .title-background { /* Container for title and background */
+      position: relative; /* Allows positioning the title */
+      margin-bottom: 20px;
+    }
+
+    .title-background img { /* Style the background image */
+      width: 100%; /* Make the image span full container width */
+      max-height: 300px; /* Limit maximum height for responsiveness */
+      object-fit: cover; /* Cover the container while maintaining aspect ratio */
+    }
+
+    .centered-title { 
+      position: absolute;
+      top: 50%; /* Position title vertically in the middle */
+      left: 50%;
+      transform: translate(-50%, -50%); /* Center title horizontally */
       text-align: center;
       font-size: 2em;
+      color: white; /* Ensure visibility on any background */
     }
 
     .image-container {
@@ -21,9 +37,8 @@
       margin-bottom: 20px;
     }
 
-    /* Placeholder styling while the content is loading */
-    #3d-image-container {
-      height: 400px; /* Adjust as needed */
+    #3d-image-container { /* Placeholder styling */
+      height: 400px;
       background-color: lightgray;
       display: flex;
       justify-content: center;
@@ -31,7 +46,7 @@
     }
 
     #3d-image-container:before {
-      content: 'Loading 3D Image...'; /* Display loading message */
+      content: 'Loading 3D Image...';
     }
   </style>
 </head>
@@ -41,7 +56,10 @@
     <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="111" height="107" alt="Yu Lab Logo">
   </div>
 
-  <h1 class="centered-title">Mus Musculus Vomeronasal Organ Analysis</h1> 
+  <div class="title-background">
+    <img src="Layer1.jpg" alt="Background Image">
+    <h1 class="centered-title">Mus Musculus Vomeronasal Organ Analysis</h1>
+  </div>
 
   <div id="3d-image-container"></div>
   <script>
