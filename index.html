@@ -38,16 +38,11 @@
       margin-bottom: 20px;
     }
 
-    #3d-image-container { /* Placeholder styling */
-      height: 400px;
-      background-color: lightgray;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #3d-image-container:before {
-      content: 'Loading 3D Image...';
+    #3d-iframe-container {
+      height: 600px;
+      width: 100%;
+      border: none;
+      margin-bottom: 20px;
     }
 
     .button-container {
@@ -86,39 +81,5 @@
     <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="333" height="322" alt="Yu Lab Logo">
   </div>
 
-  <div id="3d-image-container"></div>
-  <script>
-    const imageContainer = document.getElementById('3d-image-container');
+  <iframe id="3d-iframe-container" src="vno.3d.umap.cell_type.html" title="3D UMAP Visualization"></iframe>
 
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        // Load the 3D image content when it comes into view
-        fetch('vno.3d.umap.cell_type.html')
-          .then(response => response.text())
-          .then(html => {
-            imageContainer.innerHTML = html;
-            // Stop observing once the content is loaded
-            observer.unobserve(imageContainer);
-          })
-          .catch(error => {
-            console.error('Error loading 3D image:', error);
-            imageContainer.innerHTML = 'Failed to load 3D image.';
-          });
-      }
-    });
-
-    // Start observing the container
-    observer.observe(imageContainer);
-  </script>
-
-  <div class="button-container">
-    <a href="Figure_1.nb.html">Figure 1 Panels and Additional Information</a>
-    <a href="Figure_2.nb.html">Figure 2 Panels and Additional Information</a>
-    <a href="Figure_3.nb.html">Figure 3 Panels and Additional Information</a>
-    <a href="Figure_4.nb.html">Figure 4 Panels and Additional Information</a>
-    <a href="Figure_5.nb.html">Figure 5 Panels and Additional Information</a>
-    <a href="Figure_6.nb.html">Figure 6 Panels and Additional Information</a>
-    <a href="Figure_7.nb.html">Figure 7 Panels and Paper Data Tables</a>
-  </div>
-</body>
-</html>
