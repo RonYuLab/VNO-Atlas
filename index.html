@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mus Musculus Vomeronasal Organ Analysis</title>
   <style>
+    body {
+      background-color: white;
+    }
+
     .centered-title {
       text-align: center;
       font-size: 2em; /* Make the title larger */
@@ -21,12 +25,13 @@
 <body>
   <div class="image-container">
     <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/cute_mouse.jpeg" width="467" height="316" alt="Cute Mouse">
-    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="333" height="322" alt="Yu Lab Logo">
+    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="111" height="107" alt="Yu Lab Logo">
   </div>
 
   <h1 class="centered-title">Mus Musculus Vomeronasal Organ Analysis</h1> 
 
-  <div id="3d-image-container"></div> <script>
+  <div id="3d-image-container"></div>
+  <script>
     // Fetch and insert the 3D image content
     fetch('vno.3d.umap.cell_type.html')
       .then(response => response.text())
@@ -44,3 +49,4 @@
   <p><a href="Figure_7.nb.html">Figure 7 Panels and Paper Data Tables</a></p>
 </body>
 </html>
+
