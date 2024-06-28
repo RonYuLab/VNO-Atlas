@@ -13,7 +13,7 @@
     .title-background {
       position: relative;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .title-background img {
@@ -102,20 +102,21 @@
     .figure-container,
     .supplemental-figure-container {
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+      flex-direction: column; /* Change to vertical alignment */
+      gap: 10px; /* Adjust gap as needed */
       justify-content: center;
     }
 
     .figure-container .figure-item,
     .supplemental-figure-container .figure-item {
-      width: 45%;
+      width: 300px; /* Set a fixed width for thumbnails */
       text-align: center;
     }
 
     .figure-container img,
     .supplemental-figure-container img {
-      width: 100%;
+      width: 100%; 
+      height: auto;  /* Maintain aspect ratio */
       cursor: pointer;
       border: 1px solid #ddd;
       border-radius: 5px;
@@ -183,7 +184,7 @@
   </div>
 
   <div class="image-container">
-    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="333" height="322" alt="Yu Lab Logo">  
+    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="111" height="107" alt="Yu Lab Logo">  
     <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/cute_mouse.jpeg" width="467" height="316" alt="Cute Mouse">
   </div>
 
