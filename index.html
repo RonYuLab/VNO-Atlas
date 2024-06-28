@@ -36,20 +36,28 @@
     .yu-lab-logo {
       position: absolute;
       top: 10px;
-      right: 10px;
+      left: 10px;
       width: 100px;
       height: auto;
     }
 
     .image-container {
       display: flex;
-      justify-content: center;
+      align-items: center;  /* Vertically align items */
       margin-bottom: 20px;
     }
 
+    .image-container img:first-child { /* Target the logo (first image) */
+      margin-left: 0; /* Remove left margin */
+    }
+
+    .image-container img:last-child { /* Target the mouse (last image) */
+      margin-right: auto; /* Center it horizontally */
+    }
+
     .image-container img {
-      width: auto;
       max-width: 100%;
+      height: auto;
     }
 
     .tabs {
@@ -57,6 +65,7 @@
       justify-content: center;
       margin-bottom: 20px;
       gap: 5px;
+      flex-wrap: wrap;
     }
 
     .tab-button {
@@ -69,6 +78,7 @@
       cursor: pointer;
       flex: 1;
       text-align: center;
+      max-width: 200px;
     }
 
     .tab-button.active {
@@ -97,9 +107,15 @@
       justify-content: center;
     }
 
+    .figure-container .figure-item,
+    .supplemental-figure-container .figure-item {
+      width: 45%;
+      text-align: center;
+    }
+
     .figure-container img,
     .supplemental-figure-container img {
-      width: 45%;
+      width: 100%;
       cursor: pointer;
       border: 1px solid #ddd;
       border-radius: 5px;
@@ -112,12 +128,12 @@
       transform: scale(1.05);
     }
 
-    .figure-container a,
-    .supplemental-figure-container a {
+    .figure-container .figure-label,
+    .supplemental-figure-container .figure-label {
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 5px;
       display: block;
-      text-align: center;
-      color: black;
-      text-decoration: none;
     }
 
     .button-container {
@@ -164,11 +180,11 @@
   <div class="title-background">
     <img src="Layer1.jpg" alt="Background Image">
     <h1 class="centered-title">Mus Musculus Vomeronasal Organ Analysis</h1>
-    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" class="yu-lab-logo" alt="Yu Lab Logo">
   </div>
 
   <div class="image-container">
-    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/cute_mouse.jpeg" alt="Cute Mouse">
+    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="333" height="322" alt="Yu Lab Logo">  
+    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/cute_mouse.jpeg" width="467" height="316" alt="Cute Mouse">
   </div>
 
   <div class="tabs">
@@ -191,24 +207,63 @@
 
   <div id="Figures" class="tab-content">
     <div class="figure-container">
-      <a href="Figure_1.nb.html"><img src="Figure_1_20231220.jpg" alt="Figure 1"><br>Figure 1</a>
-      <a href="Figure_2.nb.html"><img src="Figure_2_20231220.jpg" alt="Figure 2"><br>Figure 2</a>
-      <a href="Figure_3.nb.html"><img src="Figure_3_20231207.jpg" alt="Figure 3"><br>Figure 3</a>
-      <a href="Figure_4.nb.html"><img src="Figure_4_20231205.jpg" alt="Figure 4"><br>Figure 4</a>
-      <a href="Figure_5.nb.html"><img src="FIgure_5_20230922.jpg" alt="Figure 5"><br>Figure 5</a>
-      <a href="Figure_6.nb.html"><img src="Figure_6_20231031.jpg" alt="Figure 6"><br>Figure 6</a>
-      <a href="Figure_7.nb.html"><img src="Figure_7_20231211.jpg" alt="Figure 7"><br>Figure 7</a>
+      <div class="figure-item">
+        <span class="figure-label">Figure 1</span>
+        <a href="Figure_1.nb.html"><img src="Figure_1_20231220.jpg" alt="Figure 1"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Figure 2</span>
+        <a href="Figure_2.nb.html"><img src="Figure_2_20231220.jpg" alt="Figure 2"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Figure 3</span>
+        <a href="Figure_3.nb.html"><img src="Figure_3_20231207.jpg" alt="Figure 3"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Figure 4</span>
+        <a href="Figure_4.nb.html"><img src="Figure_4_20231205.jpg" alt="Figure 4"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Figure 5</span>
+        <a href="Figure_5.nb.html"><img src="FIgure_5_20230922.jpg" alt="Figure 5"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Figure 6</span>
+        <a href="Figure_6.nb.html"><img src="Figure_6_20231031.jpg" alt="Figure 6"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Figure 7</span>
+        <a href="Figure_7.nb.html"><img src="Figure_7_20231211.jpg" alt="Figure 7"></a>
+      </div>
     </div>
   </div>
 
   <div id="SupplementalFigures" class="tab-content">
     <div class="supplemental-figure-container">
-      <a href="Supplemental_Figure_1.html"><img src="Figure_S1_2023_1031.jpg" alt="Supplemental Figure 1"><br>Supplemental Figure 1</a>
-      <a href="Supplemental_Figure_2.html"><img src="Figure_S2_2023_1127.jpg" alt="Supplemental Figure 2"><br>Supplemental Figure 2</a>
-      <a href="Supplemental_Figure_3.html"><img src="Figure_S3_2023_1127.jpg" alt="Supplemental Figure 3"><br>Supplemental Figure 3</a>
-      <a href="Supplemental_Figure_4.html"><img src="Figure_S4_2023_1102_rev.jpg" alt="Supplemental Figure 4"><br>Supplemental Figure 4</a>
-      <a href="Supplemental_Figure_5.html"><img src="Figure_S5_2023_1127.jpg" alt="Supplemental Figure 5"><br>Supplemental Figure 5</a>
-      <a href="Supplemental_Figure_6.html"><img src="Figure_S6_2023_1127.jpg" alt="Supplemental Figure 6"><br>Supplemental Figure 6</a>
+      <div class="figure-item">
+        <span class="figure-label">Supplemental Figure 1</span>
+        <a href="Supplemental_Figure_1.html"><img src="Figure_S1_2023_1031.jpg" alt="Supplemental Figure 1"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Supplemental Figure 2</span>
+        <a href="Supplemental_Figure_2.html"><img src="Figure_S2_2023_1127.jpg" alt="Supplemental Figure 2"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Supplemental Figure 3</span>
+        <a href="Supplemental_Figure_3.html"><img src="Figure_S3_2023_1127.jpg" alt="Supplemental Figure 3"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Supplemental Figure 4</span>
+        <a href="Supplemental_Figure_4.html"><img src="Figure_S4_2023_1102_rev.jpg" alt="Supplemental Figure 4"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Supplemental Figure 5</span>
+        <a href="Supplemental_Figure_5.html"><img src="Figure_S5_2023_1127.jpg" alt="Supplemental Figure 5"></a>
+      </div>
+      <div class="figure-item">
+        <span class="figure-label">Supplemental Figure 6</span>
+        <a href="Supplemental_Figure_6.html"><img src="Figure_S6_2023_1127.jpg" alt="Supplemental Figure 6"></a>
+      </div>
     </div>
   </div>
 
