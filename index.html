@@ -11,14 +11,27 @@
 
     .centered-title {
       text-align: center;
-      font-size: 2em; /* Make the title larger */
+      font-size: 2em;
     }
 
-    .image-container { /* Center the images and add spacing */
+    .image-container {
       display: flex;
       justify-content: center;
-      gap: 20px; /* Add space between images */
+      gap: 20px;
       margin-bottom: 20px;
+    }
+
+    /* Placeholder styling while the content is loading */
+    #3d-image-container {
+      height: 400px; /* Adjust as needed */
+      background-color: lightgray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #3d-image-container:before {
+      content: 'Loading 3D Image...'; /* Display loading message */
     }
   </style>
 </head>
@@ -32,12 +45,23 @@
 
   <div id="3d-image-container"></div>
   <script>
-    // Fetch and insert the 3D image content
-    fetch('vno.3d.umap.cell_type.html')
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById('3d-image-container').innerHTML = html;
-      });
+    const imageContainer = document.getElementById('3d-image-container');
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        // Load the 3D image content when it comes into view
+        fetch('vno.3d.umap.cell_type.html')
+          .then(response => response.text())
+          .then(html => {
+            imageContainer.innerHTML = html;
+            // Stop observing once the content is loaded
+            observer.unobserve(imageContainer);
+          });
+      }
+    });
+
+    // Start observing the container
+    observer.observe(imageContainer);
   </script>
 
   <p><a href="Figure_1.nb.html">Figure 1 Panels and Additional Information</a></p>
@@ -49,4 +73,3 @@
   <p><a href="Figure_7.nb.html">Figure 7 Panels and Paper Data Tables</a></p>
 </body>
 </html>
-
