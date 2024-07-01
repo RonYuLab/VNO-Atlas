@@ -33,30 +33,15 @@
       white-space: nowrap;
     }
 
-    .yu-lab-logo {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 100px;
-      height: auto;
-    }
-
-    .image-container {
+    .header-container {
       display: flex;
-      align-items: center;  /* Vertically align items */
+      align-items: center;
+      justify-content: center;
       margin-bottom: 20px;
     }
 
-    .image-container img:first-child { /* Target the logo (first image) */
-      margin-left: 0; /* Remove left margin */
-    }
-
-    .image-container img:last-child { /* Target the mouse (last image) */
-      margin-right: auto; /* Center it horizontally */
-    }
-
-    .image-container img {
-      max-width: 100%;
+    .header-container img {
+      width: 100px;
       height: auto;
     }
 
@@ -102,21 +87,21 @@
     .figure-container,
     .supplemental-figure-container {
       display: flex;
-      flex-direction: row; /* Change to vertical alignment */
-      gap: 10px; /* Adjust gap as needed */
+      flex-direction: row;
+      gap: 10px;
       justify-content: center;
     }
 
     .figure-container .figure-item,
     .supplemental-figure-container .figure-item {
-      width: 300px; /* Set a fixed width for thumbnails */
+      width: 300px;
       text-align: center;
     }
 
     .figure-container img,
     .supplemental-figure-container img {
       width: 100%; 
-      height: auto;  /* Maintain aspect ratio */
+      height: auto;
       cursor: pointer;
       border: 1px solid #ddd;
       border-radius: 5px;
@@ -183,16 +168,15 @@
     <h1 class="centered-title">Mus Musculus Vomeronasal Organ Analysis</h1>
   </div>
 
-  <div class="image-container">
-    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" width="111" height="107" alt="Yu Lab Logo">  
-    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/cute_mouse.jpeg" width="467" height="316" alt="Cute Mouse">
-  </div>
-
-  <div class="tabs">
-    <button class="tab-button active" onclick="openTab(event, 'Summary')">Summary</button>
-    <button class="tab-button" onclick="openTab(event, 'Figures')">Figures</button>
-    <button class="tab-button" onclick="openTab(event, 'SupplementalFigures')">Supplemental Figures</button>
-    <button class="tab-button" onclick="openTab(event, 'Tables')">Tables</button>
+  <div class="header-container">
+    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/yu-lab-logo.jpeg" alt="Yu Lab Logo">  
+    <div class="tabs">
+      <button class="tab-button active" onclick="openTab(event, 'Summary')">Summary</button>
+      <button class="tab-button" onclick="openTab(event, 'Figures')">Figures</button>
+      <button class="tab-button" onclick="openTab(event, 'SupplementalFigures')">Supplemental Figures</button>
+      <button class="tab-button" onclick="openTab(event, 'Tables')">Tables</button>
+    </div>
+    <img src="https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/cute_mouse.jpeg" alt="Cute Mouse">
   </div>
 
   <div id="Summary" class="tab-content active">
