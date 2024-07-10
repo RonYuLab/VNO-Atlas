@@ -204,7 +204,9 @@
     }
 
     function fetchAndDisplayCSV(url, elementId, title) {
-      fetch(url)
+      const rawUrl = url.replace('data.tables/', 'https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/data.tables/'); 
+
+      fetch(rawUrl)
         .then(response => response.text())
         .then(data => {
           const tableContainer = document.createElement('div');
@@ -212,29 +214,28 @@
 
           const tableContent = document.createElement('div');
           tableContent.classList.add('table-content');
+          tableContent.innerHTML = `
+            <div class="table-header">
+              <h2>${title}</h2>
+              <button onclick="closeTable('${elementId}')">Back</button>
+            </div>
+            ${csvToTable(data)}
+          `;
 
-          const tableHeader = document.createElement('div');
-          tableHeader.classList.add('table-header');
-
-          const tableTitle = document.createElement('h2');
-          tableTitle.textContent = title;
-          tableHeader.appendChild(tableTitle);
-
-          const backButton = document.createElement('button');
-          backButton.textContent = 'Back';
-          backButton.onclick = () => tableContainer.remove();
-          tableHeader.appendChild(backButton);
-
-          tableContent.innerHTML = csvToTable(data);
-
-          tableContainer.appendChild(tableHeader);
           tableContainer.appendChild(tableContent);
-
           document.body.appendChild(tableContainer);
-          event.preventDefault();
         })
         .catch(error => console.error('Error fetching the CSV file:', error));
     }
+
+    function closeTable(elementId) {
+      const tableContainer = document.querySelector('.table-container');
+      if (tableContainer) {
+        document.body.removeChild(tableContainer);
+      }
+    }
+
+
     function csvToTable(csvText) {
       const rows = csvText.split('\n');
       let table = '<table border="1" style="width:100%">'; // Make table full width
