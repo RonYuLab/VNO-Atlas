@@ -28,7 +28,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 3.5em;
-      color: white;
+      color: black;
       width: 100%;
       white-space: nowrap;
     }
@@ -123,8 +123,9 @@
     }
 
     .button-container {
-      display: flex;
-      flex-direction: column;
+      display: flex; /* Use flexbox to arrange buttons */
+      flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+      justify-content: center; /* Center buttons horizontally */
       gap: 20px;
     }
 
@@ -141,20 +142,41 @@
     }
 
     .button-container a {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 5px;
-      background-color: #007BFF;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      text-align: center;
-      width: 100%;
-      box-sizing: border-box;
+      flex: 0 0 calc(25% - 20px); /* Each button takes up 25% of the container, minus some margin */
+      box-sizing: border-box; /* Include padding and border in the width calculation */
+      max-width: 300px;
     }
 
     .button-container a:hover {
       background-color: #0056b3;
+    }
+
+    .table-container { /* New container for tables */
+      display: none; /* Hide by default */
+      position: fixed; /* Overlay on top of other content */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+      z-index: 1000; /* Ensure the table is on top */
+    }
+
+    .table-content {
+      background-color: white;
+      margin: 10% auto; /* Center the table with margins */
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%; /* Adjust width as needed */
+      max-height: 80%;
+      overflow-y: auto; /* Enable scrollbar if table content is too long */
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
     }
   </style>
   <script>
@@ -172,18 +194,40 @@
       evt.currentTarget.className += " active";
     }
 
-    function fetchAndDisplayCSV(url, elementId) {
+    function fetchAndDisplayCSV(url, elementId, title) {
       fetch(url)
         .then(response => response.text())
         .then(data => {
-          document.getElementById(elementId).innerHTML = csvToTable(data);
+          const tableContainer = document.createElement('div');
+          tableContainer.classList.add('table-container');
+
+          const tableContent = document.createElement('div');
+          tableContent.classList.add('table-content');
+
+          const tableHeader = document.createElement('div');
+          tableHeader.classList.add('table-header');
+
+          const tableTitle = document.createElement('h2');
+          tableTitle.textContent = title;
+          tableHeader.appendChild(tableTitle);
+
+          const backButton = document.createElement('button');
+          backButton.textContent = 'Back';
+          backButton.onclick = () => tableContainer.remove();
+          tableHeader.appendChild(backButton);
+
+          tableContent.innerHTML = csvToTable(data);
+
+          tableContainer.appendChild(tableHeader);
+          tableContainer.appendChild(tableContent);
+
+          document.body.appendChild(tableContainer);
         })
         .catch(error => console.error('Error fetching the CSV file:', error));
     }
-
     function csvToTable(csvText) {
       const rows = csvText.split('\n');
-      let table = '<table border="1">';
+      let table = '<table border="1" style="width:100%">'; // Make table full width
       rows.forEach(row => {
         table += '<tr>';
         const cols = row.split(',');
@@ -291,10 +335,10 @@
     <div class="table-group">
       <h2>Vomeronasal Receptor Coexpression</h2>
       <div class="button-container">
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.coexpression.csv', 'vr-coexpression')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.AG.coexpression.csv', 'vr-ag-coexpression')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.TF.coexpression.csv', 'vr-tf-coexpression')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.AG_TF.csv', 'vr-ag-tf-coexpression')">View Table</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.coexpression.csv', 'vr-coexpression')">VR Coexpression</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.AG.coexpression.csv', 'vr-ag-coexpression')">VR AG Coexpression</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.TF.coexpression.csv', 'vr-tf-coexpression')">VR TF Coexpression</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.AG_TF.csv', 'vr-ag-tf-coexpression')">VR AG TF Coexpression</a>
       </div>
       <div id="vr-coexpression"></div>
       <div id="vr-ag-coexpression"></div>
@@ -305,20 +349,20 @@
     <div class="table-group">
       <h2>Neuronal Lineage Determinants</h2>
       <div class="button-container">
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V1R_vs_V2R.csv', 'early-inp-v1r-vs-v2r')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V1R_vs_V2R.csv', 'late-inp-v1r-vs-v2r')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.iVSN_V1R_vs_V2R.csv', 'ivsn-v1r-vs-v2r')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.iVSN_V1R_vs_V2R.csv', 'ivsn-v1r-vs-v2r-go')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_V2R.csv', 'mvsn-v1r-vs-v2r')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_V2R.csv', 'mvsn-v1r-vs-v2r-go')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V1R_vs_OSN.csv', 'early-inp-v1r-vs-osn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V1R_vs_OSN.csv', 'late-inp-v1r-vs-osn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_mOSN.csv', 'mvsn-v1r-vs-mosn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_mOSN.csv', 'mvsn-v1r-vs-mosn-go')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V2R_vs_OSN.csv', 'early-inp-v2r-vs-osn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V2R_vs_OSN.csv', 'late-inp-v2r-vs-osn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V2R_vs_mOSN.csv', 'mvsn-v2r-vs-mosn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V2R_vs_mOSN.csv', 'mvsn-v2r-vs-mosn-go')">View Table</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V1R_vs_V2R.csv', 'early-inp-v1r-vs-v2r')">Early INP V1R vs V2R Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V1R_vs_V2R.csv', 'late-inp-v1r-vs-v2r')">Late INP V1R vs V2R Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.iVSN_V1R_vs_V2R.csv', 'ivsn-v1r-vs-v2r')">iVSN V1R vs V2R Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.iVSN_V1R_vs_V2R.csv', 'ivsn-v1r-vs-v2r-go')">iVSN V1R vs V2R GO Terms</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_V2R.csv', 'mvsn-v1r-vs-v2r')">mVSN V1R vs V2R Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_V2R.csv', 'mvsn-v1r-vs-v2r-go')">mVSN V1R vs V2R GO Terms</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V1R_vs_OSN.csv', 'early-inp-v1r-vs-osn')">Early INP V1R vs OSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V1R_vs_OSN.csv', 'late-inp-v1r-vs-osn')">Late INP V1R vs OSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_mOSN.csv', 'mvsn-v1r-vs-mosn')">mVSN V1R vs mOSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_mOSN.csv', 'mvsn-v1r-vs-mosn-go')">mVSN V1R vs mOSN GO Terms</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V2R_vs_OSN.csv', 'early-inp-v2r-vs-osn')">Early INP V2R vs OSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V2R_vs_OSN.csv', 'late-inp-v2r-vs-osn')">Late INP V2R vs OSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V2R_vs_mOSN.csv', 'mvsn-v2r-vs-mosn')">mVSN V2R vs mOSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V2R_vs_mOSN.csv', 'mvsn-v2r-vs-mosn-go')">mVSN V2R vs mOSN GO Terms</a>
       </div>
       <div id="early-inp-v1r-vs-v2r"></div>
       <div id="late-inp-v1r-vs-v2r"></div>
@@ -339,12 +383,12 @@
     <div class="table-group">
       <h2>sVSN Analysis</h2>
       <div class="button-container">
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_sVSN.csv', 'mvsn-v1r-vs-svsn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_sVSN.csv', 'mvsn-v1r-vs-svsn-go')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V2R_vs_sVSN.csv', 'mvsn-v2r-vs-svsn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V2R_vs_sVSN.csv', 'mvsn-v2r-vs-svsn-go')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mOSN_vs_sVSN.csv', 'mosn-vs-svsn')">View Table</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mOSN_vs_sVSN.csv', 'mosn-vs-svsn-go')">View Table</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_sVSN.csv', 'mvsn-v1r-vs-svsn')">mVSN V1R vs sVSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_sVSN.csv', 'mvsn-v1r-vs-svsn-go')">mVSN V1R vs sVSN GO Terms</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V2R_vs_sVSN.csv', 'mvsn-v2r-vs-svsn')">mVSN V2R vs sVSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V2R_vs_sVSN.csv', 'mvsn-v2r-vs-svsn-go')">mVSN V2R vs sVSN GO Terms</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mOSN_vs_sVSN.csv', 'mosn-vs-svsn')">mOSN vs sVSN Genes</a>
+        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mOSN_vs_sVSN.csv', 'mosn-vs-svsn-go')">mOSN vs sVSN GO Terms</a>
       </div>
       <div id="mvsn-v1r-vs-svsn"></div>
       <div id="mvsn-v1r-vs-svsn-go"></div>
