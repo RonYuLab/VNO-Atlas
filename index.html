@@ -141,10 +141,19 @@
       text-align: center;
     }
 
-    .button-container a {
-      flex: 0 0 calc(25% - 20px); /* Each button takes up 25% of the container, minus some margin */
-      box-sizing: border-box; /* Include padding and border in the width calculation */
-      max-width: 300px;
+    .button-container a { /* Re-add button styling */
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #007BFF;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+        flex: 0 0 calc(25% - 20px); /* Each button takes up 25% of the container, minus some margin */
+        max-width: 300px;
     }
 
     .button-container a:hover {
@@ -222,6 +231,7 @@
           tableContainer.appendChild(tableContent);
 
           document.body.appendChild(tableContainer);
+          event.preventDefault();
         })
         .catch(error => console.error('Error fetching the CSV file:', error));
     }
