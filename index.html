@@ -203,7 +203,7 @@
       evt.currentTarget.className += " active";
     }
 
-    function fetchAndDisplayCSV(url, elementId, title) {
+    function fetchAndDisplayCSV(url, title) {
       const rawUrl = url.replace('data.tables/', 'https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/data.tables/'); 
 
       fetch(rawUrl)
@@ -217,24 +217,32 @@
           tableContent.innerHTML = `
             <div class="table-header">
               <h2>${title}</h2>
-              <button onclick="closeTable('${elementId}')">Back</button>
+              <button onclick="closeTable()">Back</button>
             </div>
             ${csvToTable(data)}
           `;
 
           tableContainer.appendChild(tableContent);
           document.body.appendChild(tableContainer);
+
+          document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.style.display = 'none';
+          });
         })
         .catch(error => console.error('Error fetching the CSV file:', error));
     }
 
-    function closeTable(elementId) {
+    function closeTable() {
       const tableContainer = document.querySelector('.table-container');
       if (tableContainer) {
         document.body.removeChild(tableContainer);
+        document.querySelectorAll('.tab-content').forEach(tab => {
+          if (tab.id === 'Tables') {
+            tab.style.display = 'block';
+          }
+        });
       }
     }
-
 
     function csvToTable(csvText) {
       const rows = csvText.split('\n');
@@ -343,70 +351,40 @@
   </div>
 
   <div id="Tables" class="tab-content">
-    <div class="table-group">
-      <h2>Vomeronasal Receptor Coexpression</h2>
-      <div class="button-container">
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.coexpression.csv', 'vr-coexpression')">VR Coexpression</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.AG.coexpression.csv', 'vr-ag-coexpression')">VR AG Coexpression</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.TF.coexpression.csv', 'vr-tf-coexpression')">VR TF Coexpression</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.VR.AG_TF.csv', 'vr-ag-tf-coexpression')">VR AG TF Coexpression</a>
+    <div class="button-container">
+      <div class="button-group">
+        <div class="button-group-title">Vomeronasal Receptor Coexpression</div>
+        <a href="data.tables/sig.VR.coexpression.csv" onclick="fetchAndDisplayCSV(this.href, 'VR Coexpression'); return false;">VR Coexpression</a>
+        <a href="data.tables/sig.VR.AG.coexpression.csv" onclick="fetchAndDisplayCSV(this.href, 'VR AG Coexpression'); return false;">VR AG Coexpression</a>
+        <a href="data.tables/sig.VR.TF.coexpression.csv" onclick="fetchAndDisplayCSV(this.href, 'VR TF Coexpression'); return false;">VR TF Coexpression</a>
+        <a href="data.tables/sig.VR.AG_TF.csv" onclick="fetchAndDisplayCSV(this.href, 'VR AG TF Coexpression'); return false;">VR AG TF Coexpression</a>
       </div>
-      <div id="vr-coexpression"></div>
-      <div id="vr-ag-coexpression"></div>
-      <div id="vr-tf-coexpression"></div>
-      <div id="vr-ag-tf-coexpression"></div>
-    </div>
-
-    <div class="table-group">
-      <h2>Neuronal Lineage Determinants</h2>
-      <div class="button-container">
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V1R_vs_V2R.csv', 'early-inp-v1r-vs-v2r')">Early INP V1R vs V2R Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V1R_vs_V2R.csv', 'late-inp-v1r-vs-v2r')">Late INP V1R vs V2R Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.iVSN_V1R_vs_V2R.csv', 'ivsn-v1r-vs-v2r')">iVSN V1R vs V2R Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.iVSN_V1R_vs_V2R.csv', 'ivsn-v1r-vs-v2r-go')">iVSN V1R vs V2R GO Terms</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_V2R.csv', 'mvsn-v1r-vs-v2r')">mVSN V1R vs V2R Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_V2R.csv', 'mvsn-v1r-vs-v2r-go')">mVSN V1R vs V2R GO Terms</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V1R_vs_OSN.csv', 'early-inp-v1r-vs-osn')">Early INP V1R vs OSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V1R_vs_OSN.csv', 'late-inp-v1r-vs-osn')">Late INP V1R vs OSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_mOSN.csv', 'mvsn-v1r-vs-mosn')">mVSN V1R vs mOSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_mOSN.csv', 'mvsn-v1r-vs-mosn-go')">mVSN V1R vs mOSN GO Terms</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.early_INP_V2R_vs_OSN.csv', 'early-inp-v2r-vs-osn')">Early INP V2R vs OSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.late_INP_V2R_vs_OSN.csv', 'late-inp-v2r-vs-osn')">Late INP V2R vs OSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V2R_vs_mOSN.csv', 'mvsn-v2r-vs-mosn')">mVSN V2R vs mOSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V2R_vs_mOSN.csv', 'mvsn-v2r-vs-mosn-go')">mVSN V2R vs mOSN GO Terms</a>
+      <div class="button-group">
+        <div class="button-group-title">Neuronal Lineage Determinants</div>
+        <a href="data.tables/sig.early_INP_V1R_vs_V2R.csv" onclick="fetchAndDisplayCSV(this.href, 'Early INP V1R vs V2R Genes'); return false;">Early INP V1R vs V2R Genes</a>
+        <a href="data.tables/sig.late_INP_V1R_vs_V2R.csv" onclick="fetchAndDisplayCSV(this.href, 'Late INP V1R vs V2R Genes'); return false;">Late INP V1R vs V2R Genes</a>
+        <a href="data.tables/sig.iVSN_V1R_vs_V2R.csv" onclick="fetchAndDisplayCSV(this.href, 'iVSN V1R vs V2R Genes'); return false;">iVSN V1R vs V2R Genes</a>
+        <a href="data.tables/sig.GO.iVSN_V1R_vs_V2R.csv" onclick="fetchAndDisplayCSV(this.href, 'iVSN V1R vs V2R GO Terms'); return false;">iVSN V1R vs V2R GO Terms</a>
+        <a href="data.tables/sig.mVSN_V1R_vs_V2R.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V1R vs V2R Genes'); return false;">mVSN V1R vs V2R Genes</a>
+        <a href="data.tables/sig.GO.mVSN_V1R_vs_V2R.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V1R vs V2R GO Terms'); return false;">mVSN V1R vs V2R GO Terms</a>
+        <a href="data.tables/sig.early_INP_V1R_vs_OSN.csv" onclick="fetchAndDisplayCSV(this.href, 'Early INP V1R vs OSN Genes'); return false;">Early INP V1R vs OSN Genes</a>
+        <a href="data.tables/sig.late_INP_V1R_vs_OSN.csv" onclick="fetchAndDisplayCSV(this.href, 'Late INP V1R vs OSN Genes'); return false;">Late INP V1R vs OSN Genes</a>
+        <a href="data.tables/sig.mVSN_V1R_vs_mOSN.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V1R vs mOSN Genes'); return false;">mVSN V1R vs mOSN Genes</a>
+        <a href="data.tables/sig.GO.mVSN_V1R_vs_mOSN.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V1R vs mOSN GO Terms'); return false;">mVSN V1R vs mOSN GO Terms</a>
+        <a href="data.tables/sig.early_INP_V2R_vs_OSN.csv" onclick="fetchAndDisplayCSV(this.href, 'Early INP V2R vs OSN Genes'); return false;">Early INP V2R vs OSN Genes</a>
+        <a href="data.tables/sig.late_INP_V2R_vs_OSN.csv" onclick="fetchAndDisplayCSV(this.href, 'Late INP V2R vs OSN Genes'); return false;">Late INP V2R vs OSN Genes</a>
+        <a href="data.tables/sig.mVSN_V2R_vs_mOSN.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V2R vs mOSN Genes'); return false;">mVSN V2R vs mOSN Genes</a>
+        <a href="data.tables/sig.GO.mVSN_V2R_vs_mOSN.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V2R vs mOSN GO Terms'); return false;">mVSN V2R vs mOSN GO Terms</a>
       </div>
-      <div id="early-inp-v1r-vs-v2r"></div>
-      <div id="late-inp-v1r-vs-v2r"></div>
-      <div id="ivsn-v1r-vs-v2r"></div>
-      <div id="ivsn-v1r-vs-v2r-go"></div>
-      <div id="mvsn-v1r-vs-v2r"></div>
-      <div id="mvsn-v1r-vs-v2r-go"></div>
-      <div id="early-inp-v1r-vs-osn"></div>
-      <div id="late-inp-v1r-vs-osn"></div>
-      <div id="mvsn-v1r-vs-mosn"></div>
-      <div id="mvsn-v1r-vs-mosn-go"></div>
-      <div id="early-inp-v2r-vs-osn"></div>
-      <div id="late-inp-v2r-vs-osn"></div>
-      <div id="mvsn-v2r-vs-mosn"></div>
-      <div id="mvsn-v2r-vs-mosn-go"></div>
-    </div>
-
-    <div class="table-group">
-      <h2>sVSN Analysis</h2>
-      <div class="button-container">
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V1R_vs_sVSN.csv', 'mvsn-v1r-vs-svsn')">mVSN V1R vs sVSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V1R_vs_sVSN.csv', 'mvsn-v1r-vs-svsn-go')">mVSN V1R vs sVSN GO Terms</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mVSN_V2R_vs_sVSN.csv', 'mvsn-v2r-vs-svsn')">mVSN V2R vs sVSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mVSN_V2R_vs_sVSN.csv', 'mvsn-v2r-vs-svsn-go')">mVSN V2R vs sVSN GO Terms</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.mOSN_vs_sVSN.csv', 'mosn-vs-svsn')">mOSN vs sVSN Genes</a>
-        <a href="#" onclick="fetchAndDisplayCSV('data.tables/sig.GO.mOSN_vs_sVSN.csv', 'mosn-vs-svsn-go')">mOSN vs sVSN GO Terms</a>
+      <div class="button-group">
+        <div class="button-group-title">sVSN Analysis</div>
+        <a href="data.tables/sig.mVSN_V1R_vs_sVSN.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V1R vs sVSN Genes'); return false;">mVSN V1R vs sVSN Genes</a>
+        <a href="data.tables/Table_S2_Gene_sets.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V1R vs sVSN GO Terms'); return false;">mVSN V1R vs sVSN GO Terms</a>
+        <a href="data.tables/Table_S1_Sequencing_Statistics.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V2R vs sVSN Genes'); return false;">mVSN V2R vs sVSN Genes</a>
+        <a href="data.tables/Table_S2_Gene_sets.csv" onclick="fetchAndDisplayCSV(this.href, 'mVSN V2R vs sVSN GO Terms'); return false;">mVSN V2R vs sVSN GO Terms</a>
+        <a href="data.tables/Table_S1_Sequencing_Statistics.csv" onclick="fetchAndDisplayCSV(this.href, 'mOSN vs sVSN Genes'); return false;">mOSN vs sVSN Genes</a>
+        <a href="data.tables/Table_S2_Gene_sets.csv" onclick="fetchAndDisplayCSV(this.href, 'mOSN vs sVSN GO Terms'); return false;">mOSN vs sVSN GO Terms</a>
       </div>
-      <div id="mvsn-v1r-vs-svsn"></div>
-      <div id="mvsn-v1r-vs-svsn-go"></div>
-      <div id="mvsn-v2r-vs-svsn"></div>
-      <div id="mvsn-v2r-vs-svsn-go"></div>
-      <div id="mosn-vs-svsn"></div>
-      <div id="mosn-vs-svsn-go"></div>
     </div>
   </div>
 </body>
