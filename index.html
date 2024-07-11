@@ -173,11 +173,11 @@
 
     .table-content {
       background-color: white;
-      margin: 10% auto; /* Center the table with margins */
+      margin: 5% auto; /* Center the table with margins */
       padding: 20px;
       border-radius: 10px;
-      width: 80%; /* Adjust width as needed */
-      max-height: 80%;
+      width: 90%; /* Adjust width as needed */
+      max-height: 90%;
       overflow-y: auto; /* Enable scrollbar if table content is too long */
     }
 
@@ -209,6 +209,8 @@
       fetch(rawUrl)
         .then(response => response.text())
         .then(data => {
+          console.log('CSV data:', data); // Log the fetched data
+
           const tableContainer = document.createElement('div');
           tableContainer.classList.add('table-container');
 
@@ -228,8 +230,13 @@
           document.querySelectorAll('.tab-content').forEach(tab => {
             tab.style.display = 'none';
           });
+
+          tableContainer.style.display = 'block'; // Show the table container
         })
-        .catch(error => console.error('Error fetching the CSV file:', error));
+        .catch(error => {
+          console.error('Error fetching the CSV file:', error);
+          alert('Failed to load the table. Please try again later.');
+        });
     }
 
     function closeTable() {
