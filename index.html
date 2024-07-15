@@ -202,69 +202,6 @@
       document.getElementById(tabName).style.display = "block";
       evt.currentTarget.className += " active";
     }
-
-    function fetchAndDisplayCSV(url, title) {
-      const rawUrl = url.replace('data.tables/', 'https://raw.githubusercontent.com/RonYuLab/VNO-Atlas/main/data.tables/'); 
-
-      fetch(rawUrl)
-        .then(response => response.text())
-        .then(data => {
-          console.log('CSV data:', data); // Log the fetched data
-
-          const tableContainer = document.createElement('div');
-          tableContainer.classList.add('table-container');
-
-          const tableContent = document.createElement('div');
-          tableContent.classList.add('table-content');
-          tableContent.innerHTML = `
-            <div class="table-header">
-              <h2>${title}</h2>
-              <button onclick="closeTable()">Back</button>
-            </div>
-            ${csvToTable(data)}
-          `;
-
-          tableContainer.appendChild(tableContent);
-          document.body.appendChild(tableContainer);
-
-          document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.style.display = 'none';
-          });
-
-          tableContainer.style.display = 'block'; // Show the table container
-        })
-        .catch(error => {
-          console.error('Error fetching the CSV file:', error);
-          alert('Failed to load the table. Please try again later.');
-        });
-    }
-
-    function closeTable() {
-      const tableContainer = document.querySelector('.table-container');
-      if (tableContainer) {
-        document.body.removeChild(tableContainer);
-        document.querySelectorAll('.tab-content').forEach(tab => {
-          if (tab.id === 'Tables') {
-            tab.style.display = 'block';
-          }
-        });
-      }
-    }
-
-    function csvToTable(csvText) {
-      const rows = csvText.split('\n');
-      let table = '<table border="1" style="width:100%">'; // Make table full width
-      rows.forEach(row => {
-        table += '<tr>';
-        const cols = row.split(',');
-        cols.forEach(col => {
-          table += `<td>${col.trim()}</td>`;
-        });
-        table += '</tr>';
-      });
-      table += '</table>';
-      return table;
-    }
   </script>
 </head>
 <body>
@@ -358,7 +295,7 @@
   </div>
 
   <div id="Tables" class="tab-content">
-    <h2>Tables</h2>
+    <h2>class="table-header">Tables</h2>
     <div class="button-container">
       <a href="data.tables/coexpression.nb.html" >Receptor Coexpression</a>
       <a href="data.tables/degs.nb.html" >Lineage Differentiation</a>
