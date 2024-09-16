@@ -121,12 +121,23 @@
       margin-bottom: 5px;
       display: block;
     }
-
     .button-container {
       display: flex; /* Use flexbox to arrange buttons */
-      flex-wrap: wrap; /* Allow buttons to wrap to the next line */
       justify-content: center; /* Center buttons horizontally */
-      gap: 20px;
+      gap: 20px; /* Spacing between buttons */
+      flex-wrap: nowrap; /* Prevent wrapping to a new line */
+    }
+
+    .button-container a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      text-align: center;
+      flex: 0 0 auto; /* Each button takes its content width */
+      max-width: 200px; /* Optional: Reduce button max-width to ensure they fit */
     }
 
     .button-group {
